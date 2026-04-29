@@ -47,11 +47,4 @@ public class RepairOrderRegistry {
         currentRepairOrder.addDiagnosticResult(diagnostic, task, price);
         return currentRepairOrder;
     }
-   /**
-     * Skriver ut reparationsordern.
-     */
-    public void printRepairOrder() {
-        System.out.println("Accepted request:");
-        System.out.println(currentRepairOrder);
-    }
 }

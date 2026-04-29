@@ -19,13 +19,24 @@ public class RepairOrderDTO {
         this.phone = phone;
         this.problem = problem;
     }
-
+    
+    /**
+     * Lägger till diagnos, åtgärd och pris.
+     *
+     * @param diagnostic diagnos
+     * @param task åtgärd
+     * @param price pris
+     */
     public void addDiagnosticResult(String diagnostic, String task, double price) {
         this.diagnostic = diagnostic;
         this.task = task;
         this.price = price;
     }
 
+
+    /**
+     * Returnerar en strängrepresentation av reparationsordern.
+     */
     public String toString() {
         return "Repair order - Date: " + date +
                 ", Customer phone: " + phone +

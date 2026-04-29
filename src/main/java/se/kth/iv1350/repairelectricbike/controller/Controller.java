@@ -2,6 +2,7 @@ package se.kth.iv1350.repairelectricbike.controller;
 
 import se.kth.iv1350.repairelectricbike.integration.CustomerRegistry;
 import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
+import se.kth.iv1350.repairelectricbike.integration.Printer;
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 
@@ -11,6 +12,7 @@ import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 public class Controller {
     private CustomerRegistry customerRegistry;
     private RepairOrderRegistry repairOrderRegistry;
+    private Printer printer;
 
     /**
      * Skapar en controller och initierar registren.
@@ -18,6 +20,7 @@ public class Controller {
     public Controller() {
         this.customerRegistry = new CustomerRegistry();
         this.repairOrderRegistry = new RepairOrderRegistry();
+        this.printer = new Printer();
     }
 
     /**
@@ -85,6 +88,7 @@ public class Controller {
      * Accepterar ordern och skriver ut den.
      */
     public void acceptRequest() {
-        repairOrderRegistry.printRepairOrder();
+        RepairOrderDTO order = repairOrderRegistry.getRepairOrder(null);
+        printer.printRepairOrder(order);
     }
 }
