@@ -6,21 +6,21 @@ import java.util.List;
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 
 /**
- * Stores customers (simulates a database).
+ * Lagrar kunder (simulerar en databas).
  */
 public class CustomerRegistry {
     private List<CustomerDTO> customers = new ArrayList<>();
 
     /**
-     * Creates a new customer and stores it.
+     * Skapar en ny kund och lagrar den.
      *
-     * @param name The customer's name.
-     * @param phone The customer's phone number.
-     * @param email The customer's email.
-     * @param bikeModel The bike model.
-     * @param bikeBrand The bike brand.
-     * @param bikeSerialNumber The bike serial number.
-     * @return The created customer.
+     * @param name Kundens namn.
+     * @param phone Kundens telefonnummer.
+     * @param email Kundens e-post.
+     * @param bikeModel Cykelmodell.
+     * @param bikeBrand Cykelmärke.
+     * @param bikeSerialNumber Serienummer.
+     * @return Den skapade kunden.
      */
     public CustomerDTO createCustomer(String name, String phone, String email,
                                       String bikeModel, String bikeBrand, String bikeSerialNumber) {
@@ -34,10 +34,10 @@ public class CustomerRegistry {
     }
 
     /**
-     * Finds a customer by phone number.
+     * Hittar en kund via telefonnummer.
      *
-     * @param phone The customer's phone number.
-     * @return The found customer, or null if not found.
+     * @param phone Kundens telefonnummer.
+     * @return Den hittade kunden, eller null om den inte finns.
      */
     public CustomerDTO findCustomer(String phone) {
         for (CustomerDTO customer : customers) {

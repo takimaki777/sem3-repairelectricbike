@@ -4,18 +4,18 @@ import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 
 /**
- * Stores repair orders.
+ * Lagrar reparationsorder.
  */
 public class RepairOrderRegistry {
     private RepairOrderDTO currentRepairOrder;
 
     /**
-     * Creates a new repair order.
+     * Skapar en ny reparationsorder.
      *
-     * @param customer The customer.
-     * @param problem The problem description.
-     * @param date The date of the repair order.
-     * @return The created repair order.
+     * @param customer Kunden.
+     * @param problem Problembeskrivning.
+     * @param date Datum för reparationsordern.
+     * @return Den skapade reparationsordern.
      */
     public RepairOrderDTO createRepairOrder(CustomerDTO customer, String problem, String date) {
         currentRepairOrder = new RepairOrderDTO(date, customer.getPhone(), problem);
@@ -23,10 +23,10 @@ public class RepairOrderRegistry {
     }
 
     /**
-     * Gets the current repair order.
+     * Hämtar den aktuella reparationsordern.
      *
-     * @param phone The customer's phone number.
-     * @return The repair order, or null if not found.
+     * @param phone Kundens telefonnummer.
+     * @return Reparationsordern, eller null om den inte finns.
      */
     public RepairOrderDTO getRepairOrder(String phone) {
         if (currentRepairOrder != null) {
@@ -36,20 +36,19 @@ public class RepairOrderRegistry {
     }
 
     /**
-     * Adds diagnostic result and repair task.
+     * Lägger till diagnos och åtgärd.
      *
-     * @param diagnostic The diagnostic result.
-     * @param task The repair task.
-     * @param price The price of the repair.
-     * @return The updated repair order.
+     * @param diagnostic Diagnosresultat.
+     * @param task Åtgärd.
+     * @param price Pris för reparationen.
+     * @return Den uppdaterade reparationsordern.
      */
     public RepairOrderDTO addDiagnosticResult(String diagnostic, String task, double price) {
-        currentRepairOrder.setDiagnostic(diagnostic, task, price);
+        currentRepairOrder.addDiagnosticResult(diagnostic, task, price);
         return currentRepairOrder;
     }
-
-    /**
-     * Prints the repair order.
+   /**
+     * Skriver ut reparationsordern.
      */
     public void printRepairOrder() {
         System.out.println("Accepted request:");

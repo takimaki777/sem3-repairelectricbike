@@ -1,7 +1,7 @@
 package se.kth.iv1350.repairelectricbike.model;
 
 /**
- * Represents a repair order.
+ * Representerar en repair order.
  */
 public class RepairOrder {
     private String problem;

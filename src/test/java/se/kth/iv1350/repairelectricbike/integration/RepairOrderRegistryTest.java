@@ -7,11 +7,11 @@ import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 
 /**
- * Tests the RepairOrderRegistry class.
+ * Testar klassen RepairOrderRegistry.
  */
 public class RepairOrderRegistryTest {
     /**
-     * Tests that a repair order can be created.
+     * Testar att en reparationsorder kan skapas.
      */
     @Test
     public void testCreateRepairOrder() {
@@ -33,11 +33,11 @@ public class RepairOrderRegistryTest {
         );
 
         assertNotNull(repairOrder,
-                "The created repair order should not be null.");
+                "Den skapade reparationsordern ska inte vara null.");
     }
 
     /**
-     * Tests that diagnostic result and repair task can be added.
+     * Testar att diagnos och åtgärd kan läggas till.
      */
     @Test
     public void testAddDiagnosticResult() {
@@ -63,6 +63,6 @@ public class RepairOrderRegistryTest {
         );
 
         assertNotNull(repairOrder,
-                "Repair order should still exist after diagnostic result is added.");
+                "Reparationsordern ska fortfarande finnas efter att diagnos lagts till.");
     }
 }

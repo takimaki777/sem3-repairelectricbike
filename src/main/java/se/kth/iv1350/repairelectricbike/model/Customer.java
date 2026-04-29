@@ -1,7 +1,7 @@
 package se.kth.iv1350.repairelectricbike.model;
 
 /**
- * Represents a customer.
+ * Representerar en kund.
  */
 public class Customer {
     private String name;

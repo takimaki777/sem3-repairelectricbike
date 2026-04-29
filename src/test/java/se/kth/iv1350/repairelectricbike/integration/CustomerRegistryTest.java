@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 
 /**
- * Tests the CustomerRegistry class.
+ * Testar klassen CustomerRegistry.
  */
 public class CustomerRegistryTest {
     /**
-     * Tests that a created customer can be found.
+     * Testar att en skapad kund kan hittas.
      */
     @Test
     public void testFindCreatedCustomer() {
@@ -28,11 +28,11 @@ public class CustomerRegistryTest {
         CustomerDTO foundCustomer = registry.findCustomer("0701234567");
 
         assertEquals(createdCustomer, foundCustomer,
-                "The found customer should be the same customer that was created.");
+                "Den hittade kunden ska vara samma som den skapade kunden.");
     }
 
     /**
-     * Tests that null is returned when no customer is found.
+     * Testar att null returneras när ingen kund hittas.
      */
     @Test
     public void testFindCustomerThatDoesNotExist() {
@@ -41,6 +41,6 @@ public class CustomerRegistryTest {
         CustomerDTO foundCustomer = registry.findCustomer("0000000000");
 
         assertNull(foundCustomer,
-                "No customer should be found when the phone number does not exist.");
+                "Ingen kund ska hittas när telefonnumret inte finns.");
     }
 }

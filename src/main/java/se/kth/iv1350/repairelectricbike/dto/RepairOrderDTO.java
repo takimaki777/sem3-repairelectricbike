@@ -1,7 +1,7 @@
 package se.kth.iv1350.repairelectricbike.dto;
 
 /**
- * Carries repair order data.
+ * Bär data för en reparationsorder.
  */
 public class RepairOrderDTO {
     private String date;
@@ -12,7 +12,7 @@ public class RepairOrderDTO {
     private double price;
 
     /**
-     * Creates a new RepairOrderDTO.
+     * Skapar en ny RepairOrderDTO.
      */
     public RepairOrderDTO(String date, String phone, String problem) {
         this.date = date;
@@ -20,7 +20,7 @@ public class RepairOrderDTO {
         this.problem = problem;
     }
 
-    public void setDiagnostic(String diagnostic, String task, double price) {
+    public void addDiagnosticResult(String diagnostic, String task, double price) {
         this.diagnostic = diagnostic;
         this.task = task;
         this.price = price;

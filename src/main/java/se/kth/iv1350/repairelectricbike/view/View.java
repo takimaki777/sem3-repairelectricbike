@@ -5,34 +5,40 @@ import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 
 /**
- * Simulates the user interface with hard-coded calls.
+ * Simulerar användargränssnittet med hårdkodade anrop.
  */
 public class View {
     private Controller controller;
 
     /**
-     * Creates a new View.
+     * Skapar en View med en controller.
+     *
+     * @param controller används för att anropa systemet
      */
     public View(Controller controller) {
         this.controller = controller;
     }
 
     /**
-     * Runs the program flow.
+     * Kör programmets flöde.
      */
     public void run() {
-        // Create customer
-        CustomerDTO customer = controller.createCustomer(
-        "Sven Svensson",
-        "0701234567",
-        "sven@gmail.com",
-        "City E-Bike 500",
-        "Monark",
-        "SN12345"
-        );
+        // Hämta kund (eller skapa om den inte finns)
+        CustomerDTO customer = controller.findCustomer("0701234567");
+
+        if (customer == null) {
+            customer = controller.createCustomer(
+                "Sven Svensson",
+                "0701234567",
+                "sven@gmail.com",
+                "City E-Bike 500",
+                "Monark",
+                "SN12345"
+            );
+        }
         System.out.println(customer);
 
-        // Create repair order
+        // Skapa reparationsorder
         RepairOrderDTO order = controller.createRepairOrder(
                 customer,
                 "Battery does not charge",
@@ -40,7 +46,7 @@ public class View {
         );
         System.out.println(order);
 
-        // Add diagnostic result
+        // Lägg till diagnos
         order = controller.addDiagnosticResult(
                 "Battery must be replaced",
                 "Replace battery",
@@ -48,7 +54,11 @@ public class View {
         );
         System.out.println(order);
 
-        // Accept and print
-        controller.acceptRequest();
+        // Acceptera ordern
+        boolean customerAccepts = true;
+
+        if (customerAccepts) {
+            controller.acceptRequest();
+        }
     }
 }

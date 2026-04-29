@@ -1,7 +1,7 @@
 package se.kth.iv1350.repairelectricbike.dto;
 
 /**
- * Carries customer data.
+ * Klassen bär kunddata.
  */
 public class CustomerDTO {
     private String name;
@@ -12,7 +12,7 @@ public class CustomerDTO {
     private String bikeSerialNumber;
 
     /**
-     * Creates a new CustomerDTO.
+     * Skapar en ny CustomerDTO.
      */
     public CustomerDTO(String name, String phone, String email,
                        String bikeModel, String bikeBrand, String bikeSerialNumber) {
@@ -24,10 +24,18 @@ public class CustomerDTO {
         this.bikeSerialNumber = bikeSerialNumber;
     }
 
+    /**
+     * Hämtar kundens telefonnummer.
+     *
+     * @return telefonnumret
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * Returnerar en strängrepresentation av kunden.
+     */
     public String toString() {
         return "Customer: " + name +
                 ", Email: " + email +

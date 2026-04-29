@@ -6,34 +6,30 @@ import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 
 /**
- * Coordinates calls between view and the rest of the system.
+ * Kopplar ihop View med resten av systemet.
  */
 public class Controller {
     private CustomerRegistry customerRegistry;
     private RepairOrderRegistry repairOrderRegistry;
 
     /**
-     * Creates a new Controller.
-     *
-     * @param customerRegistry The customer registry.
-     * @param repairOrderRegistry The repair order registry.
+     * Skapar en controller och initierar registren.
      */
-    public Controller(CustomerRegistry customerRegistry,
-                      RepairOrderRegistry repairOrderRegistry) {
-        this.customerRegistry = customerRegistry;
-        this.repairOrderRegistry = repairOrderRegistry;
+    public Controller() {
+        this.customerRegistry = new CustomerRegistry();
+        this.repairOrderRegistry = new RepairOrderRegistry();
     }
 
     /**
-     * Creates a new customer.
+     * Skapar en ny kund.
      *
-     * @param name The customer's name.
-     * @param phone The customer's phone number.
-     * @param email The customer's email.
-     * @param bikeModel The bike model.
-     * @param bikeBrand The bike brand.
-     * @param bikeSerialNumber The bike serial number.
-     * @return The created customer.
+     * @param name kundens namn
+     * @param phone kundens telefonnummer
+     * @param email kundens e-post
+     * @param bikeModel cykelmodell
+     * @param bikeBrand cykelmärke
+     * @param bikeSerialNumber serienummer
+     * @return den skapade kunden
      */
     public CustomerDTO createCustomer(String name, String phone, String email,
                                       String bikeModel, String bikeBrand, String bikeSerialNumber) {
@@ -42,51 +38,51 @@ public class Controller {
     }
 
     /**
-     * Finds a customer by phone number.
+     * Letar upp en kund via telefonnummer.
      *
-     * @param phone The customer's phone number.
-     * @return The found customer, or null if not found.
+     * @param phone telefonnummer
+     * @return kunden, eller null om den inte finns
      */
     public CustomerDTO findCustomer(String phone) {
         return customerRegistry.findCustomer(phone);
     }
 
     /**
-     * Creates a repair order.
+     * Skapar en reparationsorder.
      *
-     * @param customer The customer.
-     * @param problem The problem description.
-     * @param date The date of the repair order.
-     * @return The created repair order.
+     * @param customer kunden
+     * @param problem beskrivning av problemet
+     * @param date datum
+     * @return den skapade ordern
      */
     public RepairOrderDTO createRepairOrder(CustomerDTO customer, String problem, String date) {
         return repairOrderRegistry.createRepairOrder(customer, problem, date);
     }
 
     /**
-     * Gets a repair order.
+     * Hämtar en reparationsorder.
      *
-     * @param phone The customer's phone number.
-     * @return The repair order, or null if not found.
+     * @param phone telefonnummer
+     * @return ordern, eller null om den inte finns
      */
     public RepairOrderDTO getRepairOrder(String phone) {
         return repairOrderRegistry.getRepairOrder(phone);
     }
 
     /**
-     * Adds diagnostic result and repair task.
+     * Lägger till diagnos och åtgärd.
      *
-     * @param diagnostic The diagnostic result.
-     * @param task The repair task.
-     * @param price The price of the repair.
-     * @return The updated repair order.
+     * @param diagnostic diagnos
+     * @param task åtgärd
+     * @param price pris
+     * @return uppdaterad order
      */
     public RepairOrderDTO addDiagnosticResult(String diagnostic, String task, double price) {
         return repairOrderRegistry.addDiagnosticResult(diagnostic, task, price);
     }
 
     /**
-     * Accepts the request and prints the repair order.
+     * Accepterar ordern och skriver ut den.
      */
     public void acceptRequest() {
         repairOrderRegistry.printRepairOrder();
