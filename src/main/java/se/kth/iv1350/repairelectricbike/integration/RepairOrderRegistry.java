@@ -2,49 +2,33 @@ package se.kth.iv1350.repairelectricbike.integration;
 
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
+import se.kth.iv1350.repairelectricbike.model.RepairOrder;
 
 /**
  * Lagrar reparationsorder.
  */
 public class RepairOrderRegistry {
-    private RepairOrderDTO currentRepairOrder;
+    private RepairOrder currentRepairOrder;
 
-    /**
-     * Skapar en ny reparationsorder.
-     *
-     * @param customer Kunden.
-     * @param problem Problembeskrivning.
-     * @param date Datum för reparationsordern.
-     * @return Den skapade reparationsordern.
-     */
     public RepairOrderDTO createRepairOrder(CustomerDTO customer, String problem, String date) {
-        currentRepairOrder = new RepairOrderDTO(date, customer.getPhone(), problem);
-        return currentRepairOrder;
+        currentRepairOrder = new RepairOrder(date, customer.getPhone(), problem);
+        return new RepairOrderDTO(currentRepairOrder);
     }
 
-    /**
-     * Hämtar den aktuella reparationsordern.
-     *
-     * @param phone Kundens telefonnummer.
-     * @return Reparationsordern, eller null om den inte finns.
-     */
     public RepairOrderDTO getRepairOrder(String phone) {
         if (currentRepairOrder != null) {
-            return currentRepairOrder;
+            return new RepairOrderDTO(currentRepairOrder);
         }
         return null;
     }
 
-    /**
-     * Lägger till diagnos och åtgärd.
-     *
-     * @param diagnostic Diagnosresultat.
-     * @param task Åtgärd.
-     * @param price Pris för reparationen.
-     * @return Den uppdaterade reparationsordern.
-     */
     public RepairOrderDTO addDiagnosticResult(String diagnostic, String task, double price) {
         currentRepairOrder.addDiagnosticResult(diagnostic, task, price);
-        return currentRepairOrder;
+        return new RepairOrderDTO(currentRepairOrder);
+    }
+
+    public RepairOrderDTO acceptCurrentRepairOrder() {
+        currentRepairOrder.accept();
+        return new RepairOrderDTO(currentRepairOrder);
     }
 }

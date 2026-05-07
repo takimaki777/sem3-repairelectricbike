@@ -1,22 +1,38 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 
-/**
- * Testar klassen CustomerRegistry.
- */
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 public class CustomerRegistryTest {
-    /**
-     * Testar att en skapad kund kan hittas.
-     */
+
     @Test
-    public void testFindCreatedCustomer() {
+    public void createCustomerShouldReturnCustomerDTO() {
         CustomerRegistry registry = new CustomerRegistry();
 
-        CustomerDTO createdCustomer = registry.createCustomer(
+        CustomerDTO customer = registry.createCustomer(
+                "Sven Svensson",
+                "0701234567",
+                "sven@gmail.com",
+                "City E-Bike 500",
+                "Monark",
+                "SN12345"
+        );
+
+        assertNotNull(customer);
+        assertEquals("Sven Svensson", customer.getName());
+        assertEquals("0701234567", customer.getPhone());
+    }
+
+    @Test
+    public void findExistingCustomerShouldReturnCustomer() {
+        CustomerRegistry registry = new CustomerRegistry();
+
+        registry.createCustomer(
                 "Sven Svensson",
                 "0701234567",
                 "sven@gmail.com",
@@ -27,20 +43,17 @@ public class CustomerRegistryTest {
 
         CustomerDTO foundCustomer = registry.findCustomer("0701234567");
 
-        assertEquals(createdCustomer, foundCustomer,
-                "Den hittade kunden ska vara samma som den skapade kunden.");
+        assertNotNull(foundCustomer);
+        assertEquals("Sven Svensson", foundCustomer.getName());
+        assertEquals("0701234567", foundCustomer.getPhone());
     }
 
-    /**
-     * Testar att null returneras när ingen kund hittas.
-     */
     @Test
-    public void testFindCustomerThatDoesNotExist() {
+    public void findUnknownCustomerShouldReturnNull() {
         CustomerRegistry registry = new CustomerRegistry();
 
         CustomerDTO foundCustomer = registry.findCustomer("0000000000");
 
-        assertNull(foundCustomer,
-                "Ingen kund ska hittas när telefonnumret inte finns.");
+        assertNull(foundCustomer);
     }
 }

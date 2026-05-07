@@ -33,6 +33,10 @@ public class CustomerDTO {
         return phone;
     }
 
+    public String getName() {
+        return name;
+    }
+
     /**
      * Returnerar en strängrepresentation av kunden.
      */
@@ -44,4 +48,5 @@ public class CustomerDTO {
                 ", Bike model: " + bikeModel +
                 ", Bike serial number: " + bikeSerialNumber;
     }
+
 }

@@ -87,8 +87,10 @@ public class Controller {
     /**
      * Accepterar ordern och skriver ut den.
      */
-    public void acceptRequest() {
-        RepairOrderDTO order = repairOrderRegistry.getRepairOrder(null);
+    public RepairOrderDTO acceptRequest() {
+        RepairOrderDTO order = repairOrderRegistry.acceptCurrentRepairOrder();
         printer.printRepairOrder(order);
-    }
+
+        return order;
+}
 }

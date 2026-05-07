@@ -1,23 +1,18 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 
-/**
- * Testar klassen RepairOrderRegistry.
- */
-public class RepairOrderRegistryTest {
-    /**
-     * Testar att en reparationsorder kan skapas.
-     */
-    @Test
-    public void testCreateRepairOrder() {
-        RepairOrderRegistry registry = new RepairOrderRegistry();
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-        CustomerDTO customer = new CustomerDTO(
+public class RepairOrderRegistryTest {
+
+    private CustomerDTO createTestCustomer() {
+        return new CustomerDTO(
                 "Sven Svensson",
                 "0701234567",
                 "sven@gmail.com",
@@ -25,88 +20,91 @@ public class RepairOrderRegistryTest {
                 "Monark",
                 "SN12345"
         );
+    }
 
-        RepairOrderDTO repairOrder = registry.createRepairOrder(
+    @Test
+    public void createRepairOrderShouldReturnCreatedOrder() {
+        RepairOrderRegistry registry = new RepairOrderRegistry();
+        CustomerDTO customer = createTestCustomer();
+
+        RepairOrderDTO order = registry.createRepairOrder(
                 customer,
                 "Battery does not charge",
                 "2026-04-23"
         );
 
-        assertNotNull(repairOrder,
-                "Den skapade reparationsordern ska inte vara null.");
+        assertNotNull(order);
+        assertEquals("0701234567", order.getPhone());
+        assertEquals("Battery does not charge", order.getProblem());
+        assertEquals("CREATED", order.getStatus());
     }
 
-    /**
-     * Testar att diagnos och åtgärd kan läggas till.
-     */
     @Test
-    public void testAddDiagnosticResult() {
+    public void getRepairOrderShouldReturnCreatedOrder() {
         RepairOrderRegistry registry = new RepairOrderRegistry();
+        CustomerDTO customer = createTestCustomer();
 
-        CustomerDTO customer = new CustomerDTO(
-                "Sven Svensson",
-                "0701234567",
-                "sven@gmail.com",
-                "City E-Bike 500",
-                "Monark",
-                "SN12345"
+        registry.createRepairOrder(
+                customer,
+                "Battery does not charge",
+                "2026-04-23"
         );
 
-        registry.createRepairOrder(customer,
-                "Battery does not charge",
-                "2026-04-23");
+        RepairOrderDTO foundOrder = registry.getRepairOrder("0701234567");
 
-        RepairOrderDTO repairOrder = registry.addDiagnosticResult(
+        assertNotNull(foundOrder);
+        assertEquals("0701234567", foundOrder.getPhone());
+        assertEquals("Battery does not charge", foundOrder.getProblem());
+        assertEquals("CREATED", foundOrder.getStatus());
+    }
+
+    @Test
+    public void getRepairOrderWhenNoneExistsShouldReturnNull() {
+        RepairOrderRegistry registry = new RepairOrderRegistry();
+
+        RepairOrderDTO foundOrder = registry.getRepairOrder("0701234567");
+
+        assertNull(foundOrder);
+    }
+
+    @Test
+    public void addDiagnosticResultShouldUpdateCurrentOrder() {
+        RepairOrderRegistry registry = new RepairOrderRegistry();
+        CustomerDTO customer = createTestCustomer();
+
+        registry.createRepairOrder(
+                customer,
+                "Battery does not charge",
+                "2026-04-23"
+        );
+
+        RepairOrderDTO order = registry.addDiagnosticResult(
                 "Battery must be replaced",
                 "Replace battery",
                 2500
         );
 
-        assertNotNull(repairOrder,
-                "Reparationsordern ska fortfarande finnas efter att diagnos lagts till.");
-   
-        }
-        /**
-         * Testar att null returneras när ingen reparationsorder finns.
-         */
+        assertNotNull(order);
+        assertEquals("DIAGNOSED", order.getStatus());
+        assertEquals("Battery must be replaced", order.getDiagnostic());
+        assertEquals("Replace battery", order.getTask());
+        assertEquals(2500, order.getPrice());
+    }
+
     @Test
-    public void testGetRepairOrderWhenNoneExists() {
+    public void acceptCurrentRepairOrderShouldUpdateStatusToAccepted() {
         RepairOrderRegistry registry = new RepairOrderRegistry();
+        CustomerDTO customer = createTestCustomer();
 
-        RepairOrderDTO repairOrder = registry.getRepairOrder("0701234567"
-        );
-
-        assertNull(repairOrder,
-                "Ingen reparationsorder ska hittas när ingen order har skapats.");
-        }
-
-
-        /**
-         * Testar att en skapad reparationsorder kan hämtas.
-         */
-   @Test
-   public void testGetCreatedRepairOrder() {
-        RepairOrderRegistry registry = new RepairOrderRegistry();
-
-        CustomerDTO customer = new CustomerDTO(
-                "Sven Svensson",
-                "0701234567",
-                "sven@gmail.com",
-                "City E-Bike 500",
-                "Monark",
-                "SN12345"
-        );
-
-        RepairOrderDTO createdOrder = registry.createRepairOrder(
+        registry.createRepairOrder(
                 customer,
                 "Battery does not charge",
                 "2026-04-23"
         );
 
-        RepairOrderDTO foundOrder = registry.getRepairOrder("0701234567"
-        );
+        RepairOrderDTO order = registry.acceptCurrentRepairOrder();
 
-        assertEquals(createdOrder, foundOrder,
-                "Den hittade reparationsordern ska vara samma som den skapade.");
-                }
+        assertNotNull(order);
+        assertEquals("ACCEPTED", order.getStatus());
+    }
 }
