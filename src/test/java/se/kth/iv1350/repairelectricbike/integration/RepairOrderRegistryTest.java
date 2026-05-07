@@ -107,4 +107,20 @@ public class RepairOrderRegistryTest {
         assertNotNull(order);
         assertEquals("ACCEPTED", order.getStatus());
     }
+
+    @Test
+    public void getRepairOrderWithWrongPhoneShouldReturnNull() {
+        RepairOrderRegistry registry = new RepairOrderRegistry();
+        CustomerDTO customer = createTestCustomer();
+
+        registry.createRepairOrder(
+                customer,
+                "Battery does not charge",
+                "2026-04-23"
+        );
+
+        RepairOrderDTO foundOrder = registry.getRepairOrder("0000000000");
+
+        assertNull(foundOrder);
+        }
 }

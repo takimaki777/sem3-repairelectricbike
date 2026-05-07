@@ -2,14 +2,15 @@ package se.kth.iv1350.repairelectricbike.integration;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
+import se.kth.iv1350.repairelectricbike.model.Customer;
+
 
 /**
  * Lagrar kunder (simulerar en databas).
  */
 public class CustomerRegistry {
-    private List<CustomerDTO> customers = new ArrayList<>();
+    private List<Customer> customers = new ArrayList<>();
 
     /**
      * Skapar en ny kund och lagrar den.
@@ -25,12 +26,12 @@ public class CustomerRegistry {
     public CustomerDTO createCustomer(String name, String phone, String email,
                                       String bikeModel, String bikeBrand, String bikeSerialNumber) {
 
-        CustomerDTO customer = new CustomerDTO(name, phone, email,
+        Customer customer = new Customer(name, phone, email,
                 bikeModel, bikeBrand, bikeSerialNumber);
 
         customers.add(customer);
 
-        return customer;
+        return new CustomerDTO(customer);
     }
 
     /**
@@ -40,9 +41,9 @@ public class CustomerRegistry {
      * @return Den hittade kunden, eller null om den inte finns.
      */
     public CustomerDTO findCustomer(String phone) {
-        for (CustomerDTO customer : customers) {
+        for (Customer customer : customers) {
             if (customer.getPhone().equals(phone)) {
-                return customer;
+                return new CustomerDTO(customer);
             }
         }
         return null;

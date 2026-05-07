@@ -1,4 +1,5 @@
 package se.kth.iv1350.repairelectricbike.dto;
+import se.kth.iv1350.repairelectricbike.model.Customer;
 
 /**
  * Klassen bär kunddata.
@@ -25,6 +26,20 @@ public class CustomerDTO {
     }
 
     /**
+     * Creates a DTO from a customer object.
+     *
+     * @param customer The customer to copy data from.
+     */
+    public CustomerDTO(Customer customer) {
+        this.name = customer.getName();
+        this.phone = customer.getPhone();
+        this.email = customer.getEmail();
+        this.bikeModel = customer.getBikeModel();
+        this.bikeBrand = customer.getBikeBrand();
+        this.bikeSerialNumber = customer.getBikeSerialNumber();
+    }
+
+    /**
      * Hämtar kundens telefonnummer.
      *
      * @return telefonnumret
@@ -35,6 +50,42 @@ public class CustomerDTO {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets the customer's email.
+     *
+     * @return The customer's email.
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Gets the bike model.
+     *
+     * @return The bike model.
+     */
+    public String getBikeModel() {
+        return bikeModel;
+    }
+
+    /**
+     * Gets the bike brand.
+     *
+     * @return The bike brand.
+     */
+    public String getBikeBrand() {
+        return bikeBrand;
+    }
+
+    /**
+     * Gets the bike serial number.
+     *
+     * @return The bike serial number.
+     */
+    public String getBikeSerialNumber() {
+        return bikeSerialNumber;
     }
 
     /**
