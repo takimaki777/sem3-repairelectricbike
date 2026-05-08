@@ -3,13 +3,14 @@ package se.kth.iv1350.repairelectricbike.integration;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 
 /**
- * Skriver ut reparationsorder.
+ * Prints repair orders.
  */
 public class Printer {
+
     /**
-     * Skriver ut den angivna reparationsordern.
+     * Prints the specified repair order.
      *
-     * @param repairOrder Den reparationsorder som ska skrivas ut.
+     * @param repairOrder The repair order to print.
      */
     public void printRepairOrder(RepairOrderDTO repairOrder) {
         System.out.println("Accepted request:");

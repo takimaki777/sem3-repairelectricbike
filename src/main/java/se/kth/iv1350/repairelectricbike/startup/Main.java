@@ -4,15 +4,15 @@ import se.kth.iv1350.repairelectricbike.controller.Controller;
 import se.kth.iv1350.repairelectricbike.view.View;
 
 /**
- * Startar applikationen.
+ * Starts the application.
  */
 public class Main {
+
     /**
-     * Startar programmet.
+     * Starts the program.
      *
-     * @param args Argument som kan 
-     * skickas in vid start av programmet. 
-     * Används inte i detta program.
+     * @param args Arguments that can be passed when starting the program.
+     *             Not used in this program.
      */
     public static void main(String[] args) {
         Controller controller = new Controller();

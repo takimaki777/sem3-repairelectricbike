@@ -1,7 +1,7 @@
 package se.kth.iv1350.repairelectricbike.model;
 
 /**
- * Representerar en cykel.
+ * Represents a bike.
  */
 public class Bike {
     private String model;

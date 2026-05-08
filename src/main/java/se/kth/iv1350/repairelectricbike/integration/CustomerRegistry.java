@@ -3,49 +3,55 @@ package se.kth.iv1350.repairelectricbike.integration;
 import java.util.ArrayList;
 import java.util.List;
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
-import se.kth.iv1350.repairelectricbike.model.Customer;
-
+import se.kth.iv1350.repairelectricbike.model.CustomerNotFoundException;
 
 /**
- * Lagrar kunder (simulerar en databas).
+ * Stores customers and simulates a database.
  */
 public class CustomerRegistry {
-    private List<Customer> customers = new ArrayList<>();
+    private static final String DATABASE_FAILURE_PHONE = "9999999999";
+    private List<CustomerDTO> customers = new ArrayList<>();
 
     /**
-     * Skapar en ny kund och lagrar den.
+     * Creates and stores a new customer.
      *
-     * @param name Kundens namn.
-     * @param phone Kundens telefonnummer.
-     * @param email Kundens e-post.
-     * @param bikeModel Cykelmodell.
-     * @param bikeBrand Cykelmärke.
-     * @param bikeSerialNumber Serienummer.
-     * @return Den skapade kunden.
+     * @param name The customer's name.
+     * @param phone The customer's phone number.
+     * @param email The customer's email address.
+     * @param bikeModel The bike model.
+     * @param bikeBrand The bike brand.
+     * @param bikeSerialNumber The bike serial number.
+     * @return The created customer.
      */
     public CustomerDTO createCustomer(String name, String phone, String email,
-                                      String bikeModel, String bikeBrand, String bikeSerialNumber) {
-
-        Customer customer = new Customer(name, phone, email,
-                bikeModel, bikeBrand, bikeSerialNumber);
-
+                                      String bikeModel, String bikeBrand,
+                                      String bikeSerialNumber) {
+        CustomerDTO customer = new CustomerDTO(name, phone, email, bikeModel,
+                bikeBrand, bikeSerialNumber);
         customers.add(customer);
-
-        return new CustomerDTO(customer);
+        return customer;
     }
 
     /**
-     * Hittar en kund via telefonnummer.
+     * Finds a customer using a phone number.
      *
-     * @param phone Kundens telefonnummer.
-     * @return Den hittade kunden, eller null om den inte finns.
+     * @param phone The customer's phone number.
+     * @return The found customer.
+     * @throws CustomerNotFoundException If the customer does not exist.
+     * @throws DatabaseFailureException If the customer registry cannot be reached.
      */
-    public CustomerDTO findCustomer(String phone) {
-        for (Customer customer : customers) {
+    public CustomerDTO findCustomer(String phone)
+            throws CustomerNotFoundException, DatabaseFailureException {
+        if (DATABASE_FAILURE_PHONE.equals(phone)) {
+            throw new DatabaseFailureException(phone);
+        }
+
+        for (CustomerDTO customer : customers) {
             if (customer.getPhone().equals(phone)) {
-                return new CustomerDTO(customer);
+                return customer;
             }
         }
-        return null;
+
+        throw new CustomerNotFoundException(phone);
     }
 }

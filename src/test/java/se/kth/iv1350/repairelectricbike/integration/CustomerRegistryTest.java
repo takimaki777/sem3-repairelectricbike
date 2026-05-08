@@ -1,20 +1,25 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
 import org.junit.jupiter.api.Test;
-
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
+import se.kth.iv1350.repairelectricbike.model.CustomerNotFoundException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests the CustomerRegistry class.
+ */
 public class CustomerRegistryTest {
 
+    /**
+     * Tests that a created customer can be found.
+     */
     @Test
-    public void createCustomerShouldReturnCustomerDTO() {
-        CustomerRegistry registry = new CustomerRegistry();
+    public void createdCustomerShouldBeFound()
+            throws CustomerNotFoundException, DatabaseFailureException {
+        CustomerRegistry customerRegistry = new CustomerRegistry();
 
-        CustomerDTO customer = registry.createCustomer(
+        customerRegistry.createCustomer(
                 "Sven Svensson",
                 "0701234567",
                 "sven@gmail.com",
@@ -23,37 +28,33 @@ public class CustomerRegistryTest {
                 "SN12345"
         );
 
-        assertNotNull(customer);
-        assertEquals("Sven Svensson", customer.getName());
-        assertEquals("0701234567", customer.getPhone());
-    }
-
-    @Test
-    public void findExistingCustomerShouldReturnCustomer() {
-        CustomerRegistry registry = new CustomerRegistry();
-
-        registry.createCustomer(
-                "Sven Svensson",
-                "0701234567",
-                "sven@gmail.com",
-                "City E-Bike 500",
-                "Monark",
-                "SN12345"
-        );
-
-        CustomerDTO foundCustomer = registry.findCustomer("0701234567");
+        CustomerDTO foundCustomer = customerRegistry.findCustomer("0701234567");
 
         assertNotNull(foundCustomer);
-        assertEquals("Sven Svensson", foundCustomer.getName());
         assertEquals("0701234567", foundCustomer.getPhone());
     }
 
+    /**
+     * Tests that an exception is thrown when a customer does not exist.
+     */
     @Test
-    public void findUnknownCustomerShouldReturnNull() {
-        CustomerRegistry registry = new CustomerRegistry();
+    public void missingCustomerShouldThrowCustomerNotFoundException() {
+        CustomerRegistry customerRegistry = new CustomerRegistry();
 
-        CustomerDTO foundCustomer = registry.findCustomer("0000000000");
+        assertThrows(CustomerNotFoundException.class, () -> {
+            customerRegistry.findCustomer("0000000000");
+        });
+    }
 
-        assertNull(foundCustomer);
+    /**
+     * Tests that an exception is thrown during a simulated database failure.
+     */
+    @Test
+    public void databaseFailureShouldThrowDatabaseFailureException() {
+        CustomerRegistry customerRegistry = new CustomerRegistry();
+
+        assertThrows(DatabaseFailureException.class, () -> {
+            customerRegistry.findCustomer("9999999999");
+        });
     }
 }

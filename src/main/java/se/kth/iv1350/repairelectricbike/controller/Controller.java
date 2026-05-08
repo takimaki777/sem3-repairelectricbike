@@ -1,13 +1,16 @@
 package se.kth.iv1350.repairelectricbike.controller;
 
-import se.kth.iv1350.repairelectricbike.integration.CustomerRegistry;
-import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
-import se.kth.iv1350.repairelectricbike.integration.Printer;
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
+import se.kth.iv1350.repairelectricbike.integration.CustomerRegistry;
+import se.kth.iv1350.repairelectricbike.integration.DatabaseFailureException;
+import se.kth.iv1350.repairelectricbike.integration.Printer;
+import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
+import se.kth.iv1350.repairelectricbike.model.CustomerNotFoundException;
+import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 
 /**
- * Kopplar ihop View med resten av systemet.
+ * Connects the View with the rest of the system.
  */
 public class Controller {
     private CustomerRegistry customerRegistry;
@@ -15,7 +18,7 @@ public class Controller {
     private Printer printer;
 
     /**
-     * Skapar en controller och initierar registren.
+     * Creates a controller and initializes the registries.
      */
     public Controller() {
         this.customerRegistry = new CustomerRegistry();
@@ -24,73 +27,87 @@ public class Controller {
     }
 
     /**
-     * Skapar en ny kund.
+     * Adds an observer for repair orders.
      *
-     * @param name kundens namn
-     * @param phone kundens telefonnummer
-     * @param email kundens e-post
-     * @param bikeModel cykelmodell
-     * @param bikeBrand cykelmärke
-     * @param bikeSerialNumber serienummer
-     * @return den skapade kunden
+     * @param observer The observer that will receive updates.
      */
-    public CustomerDTO createCustomer(String name, String phone, String email,
-                                      String bikeModel, String bikeBrand, String bikeSerialNumber) {
-        return customerRegistry.createCustomer(name, phone, email,
-                bikeModel, bikeBrand, bikeSerialNumber);
+    public void addRepairOrderObserver(RepairOrderObserver observer) {
+        repairOrderRegistry.addRepairOrderObserver(observer);
     }
 
     /**
-     * Letar upp en kund via telefonnummer.
+     * Creates a new customer.
      *
-     * @param phone telefonnummer
-     * @return kunden, eller null om den inte finns
+     * @param name The customer's name.
+     * @param phone The customer's phone number.
+     * @param email The customer's email address.
+     * @param bikeModel The bike model.
+     * @param bikeBrand The bike brand.
+     * @param bikeSerialNumber The bike serial number.
+     * @return The created customer.
      */
-    public CustomerDTO findCustomer(String phone) {
+    public CustomerDTO createCustomer(String name, String phone, String email,
+                                      String bikeModel, String bikeBrand,
+                                      String bikeSerialNumber) {
+        return customerRegistry.createCustomer(name, phone, email, bikeModel,
+                bikeBrand, bikeSerialNumber);
+    }
+
+    /**
+     * Searches for a customer using a phone number.
+     *
+     * @param phone The customer's phone number.
+     * @return The found customer.
+     * @throws CustomerNotFoundException If the customer does not exist.
+     * @throws DatabaseFailureException If the customer registry cannot be reached.
+     */
+    public CustomerDTO findCustomer(String phone)
+            throws CustomerNotFoundException, DatabaseFailureException {
         return customerRegistry.findCustomer(phone);
     }
 
     /**
-     * Skapar en reparationsorder.
+     * Creates a repair order.
      *
-     * @param customer kunden
-     * @param problem beskrivning av problemet
-     * @param date datum
-     * @return den skapade ordern
+     * @param customer The customer.
+     * @param problem The problem description.
+     * @param date The date of the repair order.
+     * @return The created repair order.
      */
     public RepairOrderDTO createRepairOrder(CustomerDTO customer, String problem, String date) {
         return repairOrderRegistry.createRepairOrder(customer, problem, date);
     }
 
     /**
-     * Hämtar en reparationsorder.
+     * Retrieves a repair order.
      *
-     * @param phone telefonnummer
-     * @return ordern, eller null om den inte finns
+     * @param phone The customer's phone number.
+     * @return The repair order, or null if no repair order exists.
      */
     public RepairOrderDTO getRepairOrder(String phone) {
         return repairOrderRegistry.getRepairOrder(phone);
     }
 
     /**
-     * Lägger till diagnos och åtgärd.
+     * Adds a diagnostic result and repair task.
      *
-     * @param diagnostic diagnos
-     * @param task åtgärd
-     * @param price pris
-     * @return uppdaterad order
+     * @param diagnostic The diagnostic result.
+     * @param task The repair task.
+     * @param price The repair price.
+     * @return The updated repair order.
      */
     public RepairOrderDTO addDiagnosticResult(String diagnostic, String task, double price) {
         return repairOrderRegistry.addDiagnosticResult(diagnostic, task, price);
     }
 
     /**
-     * Accepterar ordern och skriver ut den.
+     * Accepts the repair order and prints it.
+     *
+     * @return The accepted repair order.
      */
     public RepairOrderDTO acceptRequest() {
         RepairOrderDTO order = repairOrderRegistry.acceptCurrentRepairOrder();
         printer.printRepairOrder(order);
-
         return order;
-}
+    }
 }

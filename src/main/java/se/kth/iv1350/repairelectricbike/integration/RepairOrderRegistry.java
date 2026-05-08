@@ -1,44 +1,58 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
+import java.util.ArrayList;
+import java.util.List;
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
+import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 
 /**
  * Stores repair orders.
  */
 public class RepairOrderRegistry {
     private RepairOrder currentRepairOrder;
+    private List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
 
     /**
-     * Creates and stores a new repair order.
+     * Adds an observer that will be notified when a repair order is updated.
+     *
+     * @param observer The observer to add.
+     */
+    public void addRepairOrderObserver(RepairOrderObserver observer) {
+        repairOrderObservers.add(observer);
+    }
+
+    /**
+     * Creates a new repair order.
      *
      * @param customer The customer who owns the bike.
-     * @param problem The problem with the bike.
-     * @param date The date when the order was created.
+     * @param problem The problem description.
+     * @param date The date of the repair order.
      * @return The created repair order.
      */
     public RepairOrderDTO createRepairOrder(CustomerDTO customer, String problem, String date) {
         currentRepairOrder = new RepairOrder(date, customer.getPhone(), problem);
-        return new RepairOrderDTO(currentRepairOrder);
+        RepairOrderDTO orderDTO = new RepairOrderDTO(currentRepairOrder);
+        notifyObservers(orderDTO);
+        return orderDTO;
     }
 
     /**
-     * Finds the current repair order by customer phone number.
+     * Retrieves the current repair order.
      *
      * @param phone The customer's phone number.
-     * @return The repair order, or null if no matching order exists.
+     * @return The current repair order, or null if no matching repair order exists.
      */
     public RepairOrderDTO getRepairOrder(String phone) {
         if (currentRepairOrder != null && currentRepairOrder.getPhone().equals(phone)) {
             return new RepairOrderDTO(currentRepairOrder);
         }
-
         return null;
     }
 
     /**
-     * Adds diagnostic result and repair task to the current repair order.
+     * Adds a diagnostic result and repair task.
      *
      * @param diagnostic The diagnostic result.
      * @param task The repair task.
@@ -47,7 +61,9 @@ public class RepairOrderRegistry {
      */
     public RepairOrderDTO addDiagnosticResult(String diagnostic, String task, double price) {
         currentRepairOrder.addDiagnosticResult(diagnostic, task, price);
-        return new RepairOrderDTO(currentRepairOrder);
+        RepairOrderDTO orderDTO = new RepairOrderDTO(currentRepairOrder);
+        notifyObservers(orderDTO);
+        return orderDTO;
     }
 
     /**
@@ -57,6 +73,19 @@ public class RepairOrderRegistry {
      */
     public RepairOrderDTO acceptCurrentRepairOrder() {
         currentRepairOrder.accept();
-        return new RepairOrderDTO(currentRepairOrder);
+        RepairOrderDTO orderDTO = new RepairOrderDTO(currentRepairOrder);
+        notifyObservers(orderDTO);
+        return orderDTO;
+    }
+
+    /**
+     * Notifies all observers about an updated repair order.
+     *
+     * @param orderDTO The updated repair order.
+     */
+    private void notifyObservers(RepairOrderDTO orderDTO) {
+        for (RepairOrderObserver observer : repairOrderObservers) {
+            observer.newRepairOrderUpdate(orderDTO);
+        }
     }
 }
