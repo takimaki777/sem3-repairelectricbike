@@ -1,4 +1,4 @@
-package se.kth.iv1350.repairelectricbike.model;
+package se.kth.iv1350.repairelectricbike.integration;
 
 /**
  * Thrown when a customer does not exist in the customer registry.

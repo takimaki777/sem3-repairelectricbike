@@ -2,7 +2,6 @@ package se.kth.iv1350.repairelectricbike.integration;
 
 import org.junit.jupiter.api.Test;
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
-import se.kth.iv1350.repairelectricbike.model.CustomerNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

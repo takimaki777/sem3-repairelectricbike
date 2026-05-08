@@ -2,11 +2,11 @@ package se.kth.iv1350.repairelectricbike.controller;
 
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
+import se.kth.iv1350.repairelectricbike.integration.CustomerNotFoundException;
 import se.kth.iv1350.repairelectricbike.integration.CustomerRegistry;
 import se.kth.iv1350.repairelectricbike.integration.DatabaseFailureException;
 import se.kth.iv1350.repairelectricbike.integration.Printer;
 import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
-import se.kth.iv1350.repairelectricbike.model.CustomerNotFoundException;
 import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 
 /**

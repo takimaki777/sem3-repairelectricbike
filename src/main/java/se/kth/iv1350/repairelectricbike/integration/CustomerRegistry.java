@@ -3,7 +3,6 @@ package se.kth.iv1350.repairelectricbike.integration;
 import java.util.ArrayList;
 import java.util.List;
 import se.kth.iv1350.repairelectricbike.dto.CustomerDTO;
-import se.kth.iv1350.repairelectricbike.model.CustomerNotFoundException;
 
 /**
  * Stores customers and simulates a database.
