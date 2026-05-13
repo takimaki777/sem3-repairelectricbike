@@ -9,13 +9,20 @@ import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 public class RepairOrderView implements RepairOrderObserver {
 
     /**
-     * Prints the updated repair order.
+     * Prints updated repair orders.
      *
      * @param repairOrder The updated repair order.
      */
     @Override
     public void newRepairOrderUpdate(RepairOrderDTO repairOrder) {
         System.out.println("Repair order update:");
-        System.out.println(repairOrder);
+
+        System.out.println("Repair order - Date: " + repairOrder.getDate()
+                + ", Customer phone: " + repairOrder.getPhone()
+                + ", Problem: " + repairOrder.getProblem()
+                + ", Diagnostic result: " + repairOrder.getDiagnostic()
+                + ", Repair task: " + repairOrder.getTask()
+                + ", Price: " + repairOrder.getPrice()
+                + ", Status: " + repairOrder.getStatus());
     }
 }

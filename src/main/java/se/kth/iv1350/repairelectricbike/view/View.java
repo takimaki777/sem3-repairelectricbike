@@ -41,7 +41,12 @@ public class View {
                 "SN12345"
         );
 
-        System.out.println(customer);
+        System.out.println("Customer: " + customer.getName()
+                + ", Email: " + customer.getEmail()
+                + ", Phone: " + customer.getPhone()
+                + ", Bike brand: " + customer.getBikeBrand()
+                + ", Bike model: " + customer.getBikeModel()
+                + ", Bike serial number: " + customer.getBikeSerialNumber());
 
         try {
             customer = controller.findCustomer("0701234567");
@@ -59,19 +64,36 @@ public class View {
             );
 
             boolean customerAccepts = true;
-        if (customerAccepts) {
-            RepairOrderDTO acceptedOrder = controller.acceptRequest();
 
-            System.out.println("Accepted request:");
-            System.out.println(acceptedOrder);
+            if (customerAccepts) {
+                RepairOrderDTO acceptedOrder = controller.acceptRequest();
 
-            RepairOrderDTO completedOrder = controller.completeRepairOrder();
+                System.out.println("Accepted request:");
 
-            System.out.println("Completed repair order:");
-            System.out.println(completedOrder);
-        }
+                System.out.println("Repair order - Date: " + acceptedOrder.getDate()
+                        + ", Customer phone: " + acceptedOrder.getPhone()
+                        + ", Problem: " + acceptedOrder.getProblem()
+                        + ", Diagnostic result: " + acceptedOrder.getDiagnostic()
+                        + ", Repair task: " + acceptedOrder.getTask()
+                        + ", Price: " + acceptedOrder.getPrice()
+                        + ", Status: " + acceptedOrder.getStatus());
+
+                RepairOrderDTO completedOrder = controller.completeRepairOrder();
+
+                System.out.println("Completed repair order:");
+
+                System.out.println("Repair order - Date: " + completedOrder.getDate()
+                        + ", Customer phone: " + completedOrder.getPhone()
+                        + ", Problem: " + completedOrder.getProblem()
+                        + ", Diagnostic result: " + completedOrder.getDiagnostic()
+                        + ", Repair task: " + completedOrder.getTask()
+                        + ", Price: " + completedOrder.getPrice()
+                        + ", Status: " + completedOrder.getStatus());
+            }
+
         } catch (CustomerNotFoundException exception) {
             System.out.println(exception.getMessage());
+
         } catch (DatabaseFailureException exception) {
             System.out.println(exception.getMessage());
             errorLogger.log("Database failure: " + exception.getMessage());
@@ -81,8 +103,10 @@ public class View {
 
         try {
             controller.findCustomer("0000000000");
+
         } catch (CustomerNotFoundException exception) {
             System.out.println(exception.getMessage());
+
         } catch (DatabaseFailureException exception) {
             System.out.println(exception.getMessage());
             errorLogger.log("Database failure: " + exception.getMessage());
@@ -92,8 +116,10 @@ public class View {
 
         try {
             controller.findCustomer("9999999999");
+
         } catch (CustomerNotFoundException exception) {
             System.out.println(exception.getMessage());
+
         } catch (DatabaseFailureException exception) {
             System.out.println(exception.getMessage());
             errorLogger.log("Database failure: " + exception.getMessage());

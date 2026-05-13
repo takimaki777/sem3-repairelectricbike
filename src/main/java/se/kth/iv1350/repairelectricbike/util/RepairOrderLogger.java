@@ -10,12 +10,19 @@ public class RepairOrderLogger implements RepairOrderObserver {
     private FileLogger logger = new FileLogger();
 
     /**
-     * Writes the updated repair order to the log file.
+     * Writes updated repair orders to a file.
      *
      * @param repairOrder The updated repair order.
      */
     @Override
     public void newRepairOrderUpdate(RepairOrderDTO repairOrder) {
-        logger.log("Repair order update: " + repairOrder);
+        logger.log("Repair order update:");
+        logger.log("Repair order - Date: " + repairOrder.getDate()
+                + ", Customer phone: " + repairOrder.getPhone()
+                + ", Problem: " + repairOrder.getProblem()
+                + ", Diagnostic result: " + repairOrder.getDiagnostic()
+                + ", Repair task: " + repairOrder.getTask()
+                + ", Price: " + repairOrder.getPrice()
+                + ", Status: " + repairOrder.getStatus());
     }
 }

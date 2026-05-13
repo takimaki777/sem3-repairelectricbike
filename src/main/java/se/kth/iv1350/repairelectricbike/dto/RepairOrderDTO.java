@@ -29,73 +29,31 @@ public class RepairOrderDTO {
         this.status = order.getStatus().toString();
     }
 
-    /**
-     * Returns a string representation of the repair order.
-     *
-     * @return A string containing repair order information.
-     */
-    @Override
-    public String toString() {
-        return "Repair order - Date: " + date +
-                ", Customer phone: " + phone +
-                ", Problem: " + problem +
-                ", Diagnostic result: " + diagnostic +
-                ", Repair task: " + task +
-                ", Price: " + price +
-                ", Status: " + status;
+    public String getDate() {
+        return date;
     }
 
-    /**
-     * Returns the customer's phone number.
-     *
-     * @return The customer's phone number.
-     */
     public String getPhone() {
         return phone;
     }
 
-    /**
-     * Returns the problem description.
-     *
-     * @return The problem description.
-     */
     public String getProblem() {
         return problem;
     }
 
-    /**
-     * Returns the repair order status.
-     *
-     * @return The repair order status.
-     */
-    public String getStatus() {
-        return status;
-    }
-
-    /**
-     * Returns the diagnostic result.
-     *
-     * @return The diagnostic result.
-     */
     public String getDiagnostic() {
         return diagnostic;
     }
 
-    /**
-     * Returns the repair task.
-     *
-     * @return The repair task.
-     */
     public String getTask() {
         return task;
     }
 
-    /**
-     * Returns the repair price.
-     *
-     * @return The repair price.
-     */
     public double getPrice() {
         return price;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }
