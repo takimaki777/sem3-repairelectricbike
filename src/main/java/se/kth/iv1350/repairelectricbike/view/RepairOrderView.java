@@ -4,28 +4,35 @@ import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
 import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 
 /**
- * Displays updated repair orders to the user.
+ * Shows updates about repair orders in the user interface.
  */
 public class RepairOrderView implements RepairOrderObserver {
 
     /**
-     * Prints the updated repair order.
+     * Prints information about an updated repair order.
      *
      * @param repairOrder The updated repair order.
      */
     @Override
     public void newRepairOrderUpdate(RepairOrderDTO repairOrder) {
         System.out.println("Repair order update:");
-        printRepairOrder(repairOrder);
-    }
-
-    private void printRepairOrder(RepairOrderDTO repairOrder) {
         System.out.println("Date: " + repairOrder.getDate());
         System.out.println("Customer phone: " + repairOrder.getPhone());
         System.out.println("Problem: " + repairOrder.getProblem());
-        System.out.println("Diagnostic result: " + repairOrder.getDiagnostic());
-        System.out.println("Repair task: " + repairOrder.getTask());
-        System.out.println("Price: " + repairOrder.getPrice());
+
+        if (repairOrder.getDiagnostic() != null) {
+            System.out.println("Diagnostic result: " + repairOrder.getDiagnostic());
+        }
+
+        if (repairOrder.getTask() != null) {
+            System.out.println("Repair task: " + repairOrder.getTask());
+        }
+
+        if (repairOrder.getPrice() != 0.0) {
+            System.out.println("Price: " + repairOrder.getPrice());
+        }
+
         System.out.println("Status: " + repairOrder.getStatus());
+        System.out.println();
     }
 }
