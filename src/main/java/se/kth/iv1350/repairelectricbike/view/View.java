@@ -59,9 +59,17 @@ public class View {
             );
 
             boolean customerAccepts = true;
-            if (customerAccepts) {
-                controller.acceptRequest();
-            }
+        if (customerAccepts) {
+            RepairOrderDTO acceptedOrder = controller.acceptRequest();
+
+            System.out.println("Accepted request:");
+            System.out.println(acceptedOrder);
+
+            RepairOrderDTO completedOrder = controller.completeRepairOrder();
+
+            System.out.println("Completed repair order:");
+            System.out.println(completedOrder);
+        }
         } catch (CustomerNotFoundException exception) {
             System.out.println(exception.getMessage());
         } catch (DatabaseFailureException exception) {

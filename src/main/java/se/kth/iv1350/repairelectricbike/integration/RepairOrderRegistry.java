@@ -79,6 +79,22 @@ public class RepairOrderRegistry {
     }
 
     /**
+     * Completes the current repair order.
+     *
+     * @return the completed repair order.
+     */
+    public RepairOrderDTO completeCurrentRepairOrder() {
+        currentRepairOrder.complete();
+
+        RepairOrderDTO completedOrder =
+                new RepairOrderDTO(currentRepairOrder);
+
+        notifyObservers(completedOrder);
+
+        return completedOrder;
+    }
+
+    /**
      * Notifies all observers about an updated repair order.
      *
      * @param orderDTO The updated repair order.

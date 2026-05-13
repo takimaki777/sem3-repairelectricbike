@@ -106,8 +106,16 @@ public class Controller {
      * @return The accepted repair order.
      */
     public RepairOrderDTO acceptRequest() {
-        RepairOrderDTO order = repairOrderRegistry.acceptCurrentRepairOrder();
-        printer.printRepairOrder(order);
-        return order;
+         return repairOrderRegistry.acceptCurrentRepairOrder();
     }
+
+    /**
+     * Completes the current repair order.
+     *
+     * @return the completed repair order.
+     */
+    public RepairOrderDTO completeRepairOrder() {
+        return repairOrderRegistry.completeCurrentRepairOrder();
+    }
+    
 }
